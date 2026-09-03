@@ -9,7 +9,7 @@
 
 ## 🚀 TP0 — Mise en place de l'environnement
 
-- [ ] 🎓 Lire la fiche « Environnement de développement » + auto-évaluation
+- [x] 🎓 Lire la fiche « Environnement de développement » + auto-évaluation
 - [ ] Préparer l'environnement (Codespaces ou VS Code local)
 - [ ] Lancer l'application (`cd PlaylistApp && dotnet run`)
 
