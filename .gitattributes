@@ -1,0 +1,11 @@
+# Normalise toutes les fins de ligne en LF dans le dépôt
+# (le cours s'exécute sous Linux : Codespaces, CI GitHub Actions, Docker)
+* text=auto eol=lf
+
+# Scripts shell : LF obligatoire, sinon échec en Codespaces/CI
+*.sh text eol=lf
+Dockerfile text eol=lf
+
+# Fichiers binaires : ne pas toucher
+*.png binary
+*.db binary

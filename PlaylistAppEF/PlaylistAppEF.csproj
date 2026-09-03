@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>PlaylistAppEF</RootNamespace>
+    <AssemblyName>PlaylistAppEF</AssemblyName>
+  </PropertyGroup>
+
+  <!-- ── Packages Entity Framework Core + SQLite ── -->
+  <ItemGroup>
+    <!-- Fournisseur SQLite pour EF Core -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite"
+                      Version="10.0.0" />
+    <!-- Outils de conception (migrations) -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design"
+                      Version="10.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <!-- Injection de dépendances -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection"
+                      Version="10.0.0" />
+    <!-- Journalisation console (optionnel - décommentez pour debug SQL) -->
+    <!--
+    <PackageReference Include="Microsoft.Extensions.Logging.Console"
+                      Version="10.0.0" />
+    -->
+  </ItemGroup>
+
+  <!-- Correctif sécurité : version patchée d'une dépendance transitive d'EF Design -->
+  <ItemGroup>
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.9" />
+  </ItemGroup>
+
+</Project>

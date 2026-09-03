@@ -1,0 +1,39 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.swp
+*.userprefs
+
+## Données locales (ne pas committer la BD SQLite)
+data/
+*.db
+*.db-shm
+*.db-wal
+
+## Docker (NB : .dockerignore DOIT être committé, ne pas l'ignorer)
+
+## Résultats de tests
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage.cobertura.xml
+
+## Logs
+*.log
+logs/
+
+## Secrets (JAMAIS committer)
+*.env
+appsettings.*.json
+!appsettings.json
+secrets.json
+
+## macOS
+.DS_Store
+
+## Windows
+Thumbs.db

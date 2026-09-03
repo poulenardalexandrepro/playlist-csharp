@@ -1,0 +1,92 @@
+{
+  "name": "🎵 PlaylistApp",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:1-10.0",
+
+  // ── Fonctionnalités installées dans le conteneur ──────────────────────────
+  "features": {
+    // Docker-in-Docker : permet d'exécuter docker et docker compose depuis le terminal
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "dockerDashComposeVersion": "v2",
+      "installDockerComposeSwitch": true
+    },
+    // Git en version récente
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest",
+      "ppa": true
+    }
+  },
+
+  // ── Extensions VS Code installées automatiquement ─────────────────────────
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // C# / .NET
+        "ms-dotnettools.csdevkit",            // C# Dev Kit : IntelliSense, debug, refactor
+        "ms-dotnettools.vscode-dotnet-runtime",// Runtime .NET
+        // Docker
+        "ms-azuretools.vscode-docker",        // Gestion conteneurs, Dockerfiles
+        // Git
+        "eamodio.gitlens",                    // Historique Git, blame, comparaison
+        // Base de données
+        "qwtel.sqlite-viewer",                // Visualiser la BD SQLite (playlist.db)
+        // API / REST
+        "humao.rest-client",                  // Tester les endpoints REST (.http files)
+        // Qualité du code
+        "streetsidesoftware.code-spell-checker",
+        "editorconfig.editorconfig",
+        // Markdown
+        "yzhang.markdown-all-in-one"
+      ],
+      "settings": {
+        // Formatage automatique à la sauvegarde
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "ms-dotnettools.csdevkit",
+        // Taille de police confortable pour le cours
+        "editor.fontSize": 14,
+        "editor.tabSize": 4,
+        // Terminal
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.fontSize": 13,
+        // Explorateur de fichiers
+        "explorer.sortOrder": "type",
+        // .NET
+        "dotnet-solution.dotnetPath": "/usr/bin/dotnet",
+        // SQLite : ouvrir automatiquement les .db
+        "sqliteviewer.maxRowsPerPage": 100
+      }
+    }
+  },
+
+  // ── Commandes exécutées après la création du conteneur ────────────────────
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  // ── Ports transférés automatiquement ─────────────────────────────────────
+  "forwardPorts": [5000, 5001],
+  "portsAttributes": {
+    "5000": {
+      "label": "🎵 PlaylistApp API (Swagger)",
+      "onAutoForward": "openBrowser",
+      "protocol": "http"
+    },
+    "5001": {
+      "label": "PlaylistApp API (HTTPS)",
+      "onAutoForward": "ignore"
+    }
+  },
+
+  // ── Sécurité : utilisateur non-root ──────────────────────────────────────
+  "remoteUser": "vscode",
+
+  // ── Variables d'environnement disponibles dans le conteneur ──────────────
+  "remoteEnv": {
+    "DB_PATH": "${containerWorkspaceFolder}/data",
+    "ASPNETCORE_ENVIRONMENT": "Development",
+    "DOTNET_WATCH_RESTART_ON_RUDE_EDIT": "true"
+  },
+
+  // ── Mounts : créer le dossier data/ pour SQLite ───────────────────────────
+  "mounts": [
+    "source=${localWorkspaceFolder}/data,target=${containerWorkspaceFolder}/data,type=bind,consistency=cached"
+  ]
+}

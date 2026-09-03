@@ -1,0 +1,55 @@
+name: "❓ Question sur un TP"
+description: "Poser une question sur un TP ou signaler un problème"
+title: "[TP?] Titre de votre question"
+labels: ["question"]
+assignees: []
+
+body:
+  - type: dropdown
+    id: tp
+    attributes:
+      label: "TP concerné"
+      description: "Quel TP vous pose problème ?"
+      options:
+        - "TP1 – Collections & Console"
+        - "TP2 – Entity Framework Core"
+        - "TP3 – API REST (SOA)"
+        - "TP4 – Architecture événementielle (EOA)"
+        - "Configuration (Codespaces, Docker…)"
+    validations:
+      required: true
+
+  - type: input
+    id: commande
+    attributes:
+      label: "Commande exécutée"
+      description: "Quelle commande avez-vous tapée ?"
+      placeholder: "ex: dotnet test PlaylistAppEF.Tests/"
+    validations:
+      required: true
+
+  - type: textarea
+    id: erreur
+    attributes:
+      label: "Message d'erreur complet"
+      description: "Copiez-collez l'erreur complète depuis le terminal"
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: tentatives
+    attributes:
+      label: "Ce que j'ai déjà essayé"
+      description: "Décrivez ce que vous avez tenté comme solutions"
+    validations:
+      required: false
+
+  - type: input
+    id: repo
+    attributes:
+      label: "Lien de votre dépôt"
+      description: "URL de votre dépôt GitHub personnel"
+      placeholder: "https://github.com/VOTRE_USER/playlist-csharp-VOTRE_NOM"
+    validations:
+      required: true

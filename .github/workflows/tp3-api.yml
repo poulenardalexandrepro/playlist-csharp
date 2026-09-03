@@ -1,0 +1,64 @@
+name: "TP3 – API REST & Tests d'intégration"
+
+on:
+  push:
+    paths: ["PlaylistAppAPI/**", "PlaylistAppAPI.Tests/**", ".github/workflows/tp3-api.yml"]
+  pull_request:
+    paths: ["PlaylistAppAPI/**", "PlaylistAppAPI.Tests/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  api-tests:
+    name: "🌐 Tests API REST (WebApplicationFactory)"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "⚙️ Setup .NET 10"
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: "📦 Restore tous les projets"
+        run: |
+          dotnet restore PlaylistAppAPI/PlaylistAppAPI.csproj
+          dotnet restore PlaylistAppAPI.Tests/PlaylistAppAPI.Tests.csproj
+
+      - name: "🏗️ Build"
+        run: dotnet build PlaylistAppAPI.Tests/PlaylistAppAPI.Tests.csproj -c Release --no-restore
+
+      - name: "🧪 Tests d'intégration"
+        env:
+          DB_PATH: /tmp
+          ASPNETCORE_ENVIRONMENT: Testing
+        run: |
+          dotnet test PlaylistAppAPI.Tests/PlaylistAppAPI.Tests.csproj \
+            -c Release --no-build \
+            --verbosity normal \
+            --logger "trx;LogFileName=tp3-results.trx"
+
+      - name: "📊 Rapport tests API"
+        uses: dorny/test-reporter@v2
+        if: always()
+        with:
+          name: "Tests TP3 – API REST"
+          path: "**/*.trx"
+          reporter: "dotnet-trx"
+
+      - name: "🐳 Docker Compose – API"
+        run: |
+          docker compose -f PlaylistAppAPI/docker-compose.yml build
+          echo "Image API construite avec succès"
+
+      - name: "📋 Résumé"
+        if: always()
+        run: |
+          echo "## Résultats TP3 🌐" >> $GITHUB_STEP_SUMMARY
+          echo "API REST construite et testée" >> $GITHUB_STEP_SUMMARY
+          echo "Swagger disponible sur http://localhost:5000 (en Codespaces)" >> $GITHUB_STEP_SUMMARY

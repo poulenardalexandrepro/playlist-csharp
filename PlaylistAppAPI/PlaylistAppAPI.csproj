@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>PlaylistAppAPI</RootNamespace>
+    <AssemblyName>PlaylistAppAPI</AssemblyName>
+    <!-- Génération XML pour Swagger -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- EF Core + SQLite (réutilisé du TP2) -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite"   Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design"   Version="10.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+
+    <!-- Swagger / OpenAPI (SOA – documentation automatique) -->
+    <PackageReference Include="Swashbuckle.AspNetCore"                 Version="7.2.0" />
+
+    <!-- Injection de dépendances étendue -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+  </ItemGroup>
+
+  <!-- Référence au projet TP2 (réutilise PlaylistContext, Models, Repository) -->
+  <ItemGroup>
+    <ProjectReference Include="../PlaylistAppEF/PlaylistAppEF.csproj" />
+  </ItemGroup>
+
+  <!-- Correctif sécurité : version patchée d'une dépendance transitive d'EF Design -->
+  <ItemGroup>
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.9" />
+  </ItemGroup>
+
+</Project>

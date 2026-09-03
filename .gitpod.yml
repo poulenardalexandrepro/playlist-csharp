@@ -1,0 +1,70 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  .gitpod.yml – Configuration Gitpod
+#  Alternative open-source à GitHub Codespaces (50h/mois gratuites)
+#  SLAM – PlaylistApp
+#
+#  Démarrage : https://gitpod.io/#https://github.com/[user]/playlist-csharp
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── Image de base : .NET 10 + Docker ──────────────────────────────────────────
+image:
+  file: .devcontainer/Dockerfile.gitpod
+
+# ── Tâches exécutées à l'ouverture de l'espace de travail ────────────────────
+tasks:
+  # Tâche 1 : Installation des outils (exécutée une seule fois)
+  - name: "⚙️ Installation & Configuration"
+    init: |
+      echo "📦 Installation de dotnet-ef..."
+      dotnet tool install --global dotnet-ef
+      export PATH="$PATH:$HOME/.dotnet/tools"
+      echo "📦 Restauration des packages NuGet..."
+      dotnet restore PlaylistAppEF/PlaylistAppEF.csproj
+      dotnet restore PlaylistAppAPI/PlaylistAppAPI.csproj
+      mkdir -p /workspace/playlist-csharp/data
+      echo "✅ Environnement prêt !"
+    command: |
+      export PATH="$PATH:$HOME/.dotnet/tools"
+      echo ""
+      echo "🎵 PlaylistApp"
+      echo "──────────────────────────────────────────"
+      echo "  TP2 : cd PlaylistAppEF  && dotnet run"
+      echo "  TP3 : cd PlaylistAppAPI && dotnet run"
+      echo "──────────────────────────────────────────"
+
+  # Tâche 2 : API REST (terminal dédié, optionnel)
+  - name: "🌐 API REST (TP3)"
+    openMode: tab-after
+    command: |
+      export PATH="$PATH:$HOME/.dotnet/tools"
+      cd PlaylistAppAPI
+      echo "Démarrage API sur le port 5000..."
+      echo "Tapez 'dotnet run' pour lancer"
+
+# ── Ports transférés ──────────────────────────────────────────────────────────
+ports:
+  - name: "PlaylistApp API"
+    port: 5000
+    onOpen: open-browser
+    visibility: public
+
+  - name: "PlaylistApp API HTTPS"
+    port: 5001
+    onOpen: ignore
+
+# ── Extensions VS Code ────────────────────────────────────────────────────────
+vscode:
+  extensions:
+    - ms-dotnettools.csdevkit
+    - ms-azuretools.vscode-docker
+    - eamodio.gitlens
+    - qwtel.sqlite-viewer
+    - humao.rest-client
+    - streetsidesoftware.code-spell-checker
+    - yzhang.markdown-all-in-one
+
+# ── Variables d'environnement ─────────────────────────────────────────────────
+env:
+  DB_PATH: /workspace/playlist-csharp/data
+  ASPNETCORE_ENVIRONMENT: Development
+  ASPNETCORE_URLS: http://+:5000

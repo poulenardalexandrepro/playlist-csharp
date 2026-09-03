@@ -1,0 +1,33 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  docker-compose.yml – PlaylistApp EF (TP2)
+#  Lance l'application avec un volume persistant pour la BD SQLite
+# ══════════════════════════════════════════════════════════════════════════════
+
+services:
+  playlist-ef:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: playlist-app-ef:latest
+    container_name: playlist-ef-tp2
+
+    # ── Mode interactif (nécessaire pour une app console) ────────────────────
+    stdin_open: true      # équivalent de -i
+    tty: true             # équivalent de -t
+
+    # ── Volume : persiste la base SQLite entre les redémarrages ─────────────
+    volumes:
+      - playlist-data:/data
+
+    # ── Variable d'environnement : chemin de la BD ───────────────────────────
+    environment:
+      - DB_PATH=/data
+
+    # ── Politique de redémarrage ──────────────────────────────────────────────
+    restart: "no"         # L'app console ne redémarre pas automatiquement
+
+# ── Déclaration du volume nommé ───────────────────────────────────────────────
+volumes:
+  playlist-data:
+    driver: local
+    name: playlist-ef-data

@@ -1,0 +1,38 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  docker-compose.yml – PlaylistApp FULL STACK (TP3)
+#  API REST (SOA) + Bus d'événements (EOA) + SQLite
+# ══════════════════════════════════════════════════════════════════════════════
+
+services:
+
+  # ── API REST (Architecture SOA) ───────────────────────────────────────────
+  playlist-api:
+    build:
+      context: ..
+      dockerfile: PlaylistAppAPI/Dockerfile
+    image: playlist-api:latest
+    container_name: playlist-api-tp3
+    ports:
+      - "5000:5000"                  # Swagger accessible sur http://localhost:5000
+    volumes:
+      - playlist-data:/data          # BD SQLite persistée
+    environment:
+      - DB_PATH=/data
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/swagger/v1/swagger.json"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+    labels:
+      - "description=PlaylistApp API REST – SOA + EOA"
+      - "cours=SLAM"
+
+# ── Volume persistant pour SQLite ─────────────────────────────────────────────
+volumes:
+  playlist-data:
+    driver: local
+    name: playlist-api-data
