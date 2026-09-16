@@ -40,6 +40,7 @@ public class Bibliotheque
         => _chansons.Values.Where(s =>
             s.Titre.Contains(query, StringComparison.OrdinalIgnoreCase)  ||
             s.Artiste.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+            s.Genre.Contains(query, StringComparison.OrdinalIgnoreCase) ||
             s.Album.Contains(query, StringComparison.OrdinalIgnoreCase));
 
     public bool DeleteSong(int id) => _chansons.Remove(id);

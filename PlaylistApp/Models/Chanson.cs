@@ -13,12 +13,12 @@ public class Chanson
     public int    DureeSecondes { get; set; }          // durée en secondes
     public string Genre    { get; set; } = string.Empty;
     public int    Annee     { get; set; }
-
+    public int    Note      { get; set; }        // note de 0 à 5
     // ── Constructeur ────────────────────────────────────────────────────────
     public Chanson() { }
 
     public Chanson(int id, string title, string artist, string album,
-                int duration, string genre, int year)
+                int duration, string genre, int year, int note = 3)
     {
         Id       = id;
         Titre    = title;
@@ -27,6 +27,7 @@ public class Chanson
         DureeSecondes = duration;
         Genre    = genre;
         Annee     = year;
+        Note      = note;
     }
 
     // ── Méthodes ────────────────────────────────────────────────────────────
@@ -39,5 +40,5 @@ public class Chanson
     }
 
     public override string ToString()
-        => $"[{Id:D3}] {Titre} – {Artiste} | {Album} ({Annee}) | {DureeFormatee()} | {Genre}";
+        => $"[{Id:D3}] {Titre} – {Artiste} | {Album} ({Annee}) | {DureeFormatee()} | {Genre} | {Note:D1}";
 }

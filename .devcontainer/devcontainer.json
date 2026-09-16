@@ -1,6 +1,10 @@
 {
   "name": "🎵 PlaylistApp",
-  "image": "mcr.microsoft.com/devcontainers/dotnet:1-10.0",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  
+  // "image": "mcr.microsoft.com/devcontainers/dotnet:1-10.0",
 
   // ── Fonctionnalités installées dans le conteneur ──────────────────────────
   "features": {
