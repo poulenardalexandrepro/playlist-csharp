@@ -39,9 +39,13 @@
         "yzhang.markdown-all-in-one"
       ],
       "settings": {
-        // Formatage automatique à la sauvegarde
+        // Formatage automatique à la sauvegarde.
+        // Le formateur C# est limité aux fichiers .cs : appliqué globalement,
+        // il tentait de formater aussi le Markdown et le JSON.
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "ms-dotnettools.csdevkit",
+        "[csharp]": {
+          "editor.defaultFormatter": "ms-dotnettools.csdevkit"
+        },
         // Taille de police confortable pour le cours
         "editor.fontSize": 14,
         "editor.tabSize": 4,
@@ -80,13 +84,16 @@
 
   // ── Variables d'environnement disponibles dans le conteneur ──────────────
   "remoteEnv": {
+    // data/ est DANS le workspace, donc déjà monté par le Dev Container.
     "DB_PATH": "${containerWorkspaceFolder}/data",
     "ASPNETCORE_ENVIRONMENT": "Development",
+    // Écoute sur toutes les interfaces : indispensable pour que Codespaces
+    // puisse transférer le port 5000 vers le navigateur.
+    "ASPNETCORE_URLS": "http://+:5000",
     "DOTNET_WATCH_RESTART_ON_RUDE_EDIT": "true"
-  },
+  }
 
-  // ── Mounts : créer le dossier data/ pour SQLite ───────────────────────────
-  "mounts": [
-    "source=${localWorkspaceFolder}/data,target=${containerWorkspaceFolder}/data,type=bind,consistency=cached"
-  ]
+  // Pas de "mounts" ici : ${localWorkspaceFolder} n'existe PAS sur GitHub
+  // Codespaces (il n'y a pas de machine locale), ce qui faisait échouer la
+  // création du conteneur. Le dossier data/ est versionné (data/.gitkeep).
 }

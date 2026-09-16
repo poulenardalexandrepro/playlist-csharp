@@ -8,7 +8,10 @@ obj/
 *.userprefs
 
 ## Données locales (ne pas committer la BD SQLite)
-data/
+## Le dossier data/ doit exister dans le dépôt (DB_PATH y pointe),
+## mais son contenu reste local : on versionne uniquement .gitkeep.
+data/*
+!data/.gitkeep
 *.db
 *.db-shm
 *.db-wal

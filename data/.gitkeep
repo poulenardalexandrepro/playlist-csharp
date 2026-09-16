@@ -1,0 +1,7 @@
+# Ce dossier accueille la base SQLite (playlist.db) générée aux TP2, TP3 et TP4.
+#
+# Il est versionné vide, volontairement : la variable DB_PATH du Dev Container
+# pointe ici, et le dossier doit donc exister avant le premier lancement.
+#
+# Le fichier playlist.db lui-même est ignoré par .gitignore : chacun a sa
+# propre base locale.
